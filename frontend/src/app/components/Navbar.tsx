@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
@@ -17,9 +17,13 @@ const Navbar = ({ isStatic }: NavbarProps) => {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [userId, setUserId] = useState<string | null>(null);
-    const closeMenu = () => setIsOpen(false);
+    const closeMenu = useCallback(() => {
+        setIsOpen(false);
+    }, []);
     const loginModal = useLoginModal();
     const router = useRouter();
+
+    
 
     const handleBecomeHostClick = () => {
         if (!userId) {
@@ -29,6 +33,7 @@ const Navbar = ({ isStatic }: NavbarProps) => {
         }
     };
 
+    
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -104,7 +109,10 @@ const Navbar = ({ isStatic }: NavbarProps) => {
                             <div className="p-2 hover:bg-gray-100 rounded-full cursor-pointer hidden md:block">
                                 <Image src="/icon-globe.svg" alt="Language" width={32} height={32} />
                             </div>
-                            <UserMenu currentUser={userId} />
+                            <UserMenu
+                            currentUser={userId} 
+                            closeMenu={closeMenu}
+                             />
                         </div>
                         
                     </div>
