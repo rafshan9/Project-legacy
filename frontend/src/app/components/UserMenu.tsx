@@ -8,9 +8,10 @@ import Image from "next/image";
 
 interface UserMenuProps {
     currentUser?: string | null;
+    closeMenu: () => void;
 }
 
-const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
     const router = useRouter();
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
@@ -38,12 +39,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
     const navigateTo = (path: string) => {
-        setIsOpen(false); // Close the menu first
+        setIsOpen(false); 
+        closeMenu();
         router.push(path);
     };
     const onHavenYourHome = () => {
         // Close menu immediately
         setIsOpen(false);
+        closeMenu()
 
         // 1. Not Logged In? -> Open Login Modal
         if (!currentUser) {
