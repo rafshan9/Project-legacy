@@ -8,7 +8,8 @@ import Image from "next/image";
 
 interface UserMenuProps {
     currentUser?: string | null;
-    closeMenu: () => void;
+    // Fix 1: Make this optional with '?' so Navbar doesn't crash if it's missing
+    closeMenu?: () => void; 
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
@@ -27,8 +28,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('user_data');
+        // Refresh to clear state
         window.location.href = '/'; 
     }
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -38,41 +41,39 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
     const navigateTo = (path: string) => {
         setIsOpen(false); 
-        closeMenu();
+        // Fix 2: Only call if the function exists
+        if (closeMenu) closeMenu();
         router.push(path);
     };
-    const onHavenYourHome = () => {
-        // Close menu immediately
-        setIsOpen(false);
-        closeMenu()
 
-        // 1. Not Logged In? -> Open Login Modal
+    const onHavenYourHome = () => {
+        setIsOpen(false);
+        // Fix 3: Only call if the function exists
+        if (closeMenu) closeMenu();
+
         if (!currentUser) {
             return loginModal.onOpen();
         }
 
-        // 2. Get User Data safely
         const userJson = localStorage.getItem('user_data');
         if (!userJson) {
-            // Safety fallback if logged in but data is missing
             return router.push('/sell-your-car'); 
         }
 
         const userData = JSON.parse(userJson);
 
-        // 3. Logic: Host? -> Add Listing. Not Host? -> Become Host.
         if (userData.is_host) {
             router.push('/add');
         } else {
-            router.push('/sell-your-car'); // Use router.push, not navigateTo (since navigateTo closes menu which we already did)
+            router.push('/sell-your-car');
         }
     };
 
     return (
         <div ref={menuRef} className="relative">
-            {/* ORIGINAL HAMBURGER ICON BUTTON */}
             <div 
                 onClick={toggleOpen}
                 className="p-2 hover:bg-gray-100 rounded-full cursor-pointer transition items-center justify-center hidden md:flex"
@@ -85,12 +86,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
                 />
             </div>
 
-            {/* DROPDOWN MENU */}
             {isOpen && (
                 <div className="absolute rounded-xl shadow-lg w-max min-w-[180px] bg-white overflow-hidden right-0 top-12 text-sm z-50 ">
                     <div className="flex flex-col cursor-pointer">
                         {currentUser ? (
-                            // LOGGED IN MENU
                             <>
                                 <div 
                                     onClick={() => navigateTo('/my-profile')} 
@@ -115,7 +114,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
                                 </div>
                             </>
                         ) : (
-                            // GUEST MENU
                             <>
                                 <div onClick={() => { setIsOpen(false); loginModal.onOpen(); }}
                                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
