@@ -37,7 +37,23 @@ const apiService = {
     },
 
     // --- SPECIFIC METHODS (Keep these for your other pages) ---
+    
+    getListings: async (filters?: any) => {
+        let url = '/api/listings/';
+        
+        // This handles filters like { landlord: userId }
+        if (filters) {
+            const params = new URLSearchParams();
+            Object.keys(filters).forEach(key => {
+                if (filters[key]) {
+                    params.append(key, filters[key]);
+                }
+            });
+            url += `?${params.toString()}`;
+        }
 
+        return await apiService.get(url);
+    },
     getListingDetail: async (id: string) => {
         const response = await fetch(`${apiService.getBaseUrl()}/api/listings/${id}/`, {
             method: 'GET',
@@ -135,7 +151,7 @@ const apiService = {
         });
         return apiService.handleResponse(response);
     },
-
+    
     updateProfile: async (formData: FormData) => {
         const token = localStorage.getItem('token');
         const response = await fetch(`${apiService.getBaseUrl()}/api/auth/edit/`, {
