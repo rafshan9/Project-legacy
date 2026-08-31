@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import apiService from "@/app/services/apiService";
 import { useParams } from "next/navigation";
+import ListingCard from "@/app/components/listing/ListingCard";
 
 const UserProfilePage = () => {
     const params = useParams();
