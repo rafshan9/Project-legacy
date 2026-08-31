@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, parser_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -78,14 +78,9 @@ def delete_reservation(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 @parser_classes([MultiPartParser, FormParser])
 def create_listing(request):
-    if not request.user.is_host:
-        return Response(
-            {'error': 'You must be a verified host to create listings.'}, 
-            status=403
-        )
     # 1. Create a FRESH dictionary (avoids the Pickle/QueryDict error)
     data = {key: value for key, value in request.data.items()}
 
@@ -131,8 +126,8 @@ def create_listing(request):
 
 
 @api_view(['DELETE'])
-# REMOVE @authentication_classes([]) to allow the default JWT check
-@permission_classes([IsAuthenticated]) 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser]) 
 def delete_listing(request, pk):
     try:
         listing = Listing.objects.get(pk=pk)
@@ -149,7 +144,7 @@ def delete_listing(request, pk):
 
 @api_view(['POST']) 
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 @parser_classes([MultiPartParser, FormParser])
 def update_listing(request, pk):
     # 1. Cleaner fetch with security check built-in

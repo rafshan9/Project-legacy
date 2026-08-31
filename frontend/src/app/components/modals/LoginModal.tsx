@@ -49,7 +49,8 @@ const LoginModal = () => {
                 const userData = {
                     id: data.userId,
                     username: data.userName,
-                    is_host: data.is_host // This is the most important part!
+                    is_host: data.is_host,
+                    is_staff: data.is_staff
                 };
                 localStorage.setItem('user_data', JSON.stringify(userData));
 

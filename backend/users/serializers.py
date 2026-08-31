@@ -28,5 +28,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['userId'] = str(self.user.id)
         data['userName'] = self.user.username
         data['is_host'] = self.user.is_host
+        data['is_staff'] = self.user.is_staff
         
         return data

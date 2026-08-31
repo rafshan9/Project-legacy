@@ -17,7 +17,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const [isOpen, setIsOpen] = useState(false);
+    const [isStaff, setIsStaff] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const data = localStorage.getItem('user_data');
+        if (data) {
+            try {
+                const parsed = JSON.parse(data);
+                if (parsed.is_staff) setIsStaff(true);
+            } catch (e) {}
+        }
+    }, []);
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
@@ -92,6 +103,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
                                 <div onClick={() => navigateTo('/wishlist')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
                                     My Wishlist
                                 </div>
+                                {isStaff && (
+                                    <div onClick={() => navigateTo('/admin-dashboard')} className="px-4 py-3 hover:bg-neutral-100 transition font-bold text-primary">
+                                        Store Dashboard
+                                    </div>
+                                )}
                                 <hr className="border-neutral-200"/>
                                 <div onClick={logout} className="px-4 py-3 hover:bg-neutral-100 transition text-rose-500">
                                     Logout
