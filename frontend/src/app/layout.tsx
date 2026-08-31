@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
-import MobileBottomNav from "./components/MobileBottomNav";
 import "./globals.css";
 import LoginModal from "@/app/components/modals/LoginModal"; 
 import RegisterModal from "@/app/components/modals/RegisterModal"; // Import it
@@ -27,7 +26,6 @@ export default function RootLayout({
         <Navbar />
         <MobileHeader />
         {children}
-        <MobileBottomNav />
       </body>
     </html>
   );

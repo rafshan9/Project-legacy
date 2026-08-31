@@ -13,13 +13,10 @@ const AddPropertyPage = () => {
         title: '',
         description: '',
         price: '',
-        category: 'Project',
-        make: '',
-        model: '',
-        year: '',
-        odometer: '',
-        transmission: 'manual',
-        fuel_type: 'petrol',
+        category: 'Produce',
+        brand: '',
+        weight: '',
+        dietary_preference: 'none',
         country: '',
         city: '',
         address: '',
@@ -30,10 +27,9 @@ const AddPropertyPage = () => {
     
     // The list of available options
     const featureOptions = [
-        "Sunroof", "Leather Seats", "Navigation", "Bluetooth", 
-        "Backup Camera", "Heated Seats", "Apple CarPlay", "Android Auto",
-        "Keyless Entry", "Turbo", "Alloy Wheels", "Cruise Control",
-        "Service Records", "Rust Free", "Modified"
+        "Locally Sourced", "Fair Trade", "Non-GMO", "Sugar-Free", 
+        "Low-Fat", "Farm Fresh", "Artisanal", "Bulk",
+        "Pre-washed", "Freshly Baked", "Imported"
     ];
 
     const toggleFeature = (feature: string) => {
@@ -61,12 +57,9 @@ const AddPropertyPage = () => {
         formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('category', data.category);
-        formData.append('make', data.make);
-        formData.append('model', data.model);
-        formData.append('year', data.year);
-        formData.append('odometer', data.odometer);
-        formData.append('transmission', data.transmission);
-        formData.append('fuel_type', data.fuel_type);
+        formData.append('brand', data.brand);
+        formData.append('weight', data.weight);
+        formData.append('dietary_preference', data.dietary_preference);
         formData.append('country', data.country);
         formData.append('city', data.city);
         formData.append('address', data.address);
@@ -105,14 +98,14 @@ const AddPropertyPage = () => {
 
     return (
         <main className="mt-12 max-w-[1500px] mx-auto pt-4 md:pt-32 pb-24 px-6">
-            <h1 className="text-2xl font-bold mb-6 text-black">Sell your car</h1>
+            <h1 className="text-2xl font-bold mb-6 text-black">Add Grocery Item</h1>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-6">
                     {/* BASIC INFO */}
                     <div className="space-y-4">
                         <input 
-                            placeholder="Title (e.g. 1988 BMW E30 Project)" 
+                            placeholder="Product Name (e.g. Organic Apples)" 
                             className="w-full border border-gray-200 p-4 rounded-xl text-black outline-none focus:border-black transition" 
                             onChange={(e) => setData({...data, title: e.target.value})} 
                         />
@@ -131,46 +124,42 @@ const AddPropertyPage = () => {
                             />
                         </div>
 
-                        {/* CAR SPECS GRID */}
+                        {/* GROCERY SPECS GRID */}
                         <div className="grid grid-cols-2 gap-4">
                             <input 
-                                placeholder="Year" type="number"
+                                placeholder="Brand" 
                                 className="w-full border border-gray-200 p-4 rounded-xl text-black outline-none focus:border-black transition"
-                                onChange={(e) => setData({...data, year: e.target.value})} 
+                                onChange={(e) => setData({...data, brand: e.target.value})} 
                             />
                             <input 
-                                placeholder="Make" 
+                                placeholder="Weight / Volume (e.g. 500g)" 
                                 className="w-full border border-gray-200 p-4 rounded-xl text-black outline-none focus:border-black transition"
-                                onChange={(e) => setData({...data, make: e.target.value})} 
-                            />
-                            <input 
-                                placeholder="Model" 
-                                className="w-full border border-gray-200 p-4 rounded-xl text-black outline-none focus:border-black transition"
-                                onChange={(e) => setData({...data, model: e.target.value})} 
-                            />
-                            <input 
-                                placeholder="Odometer (km)" type="number"
-                                className="w-full border border-gray-200 p-4 rounded-xl text-black outline-none focus:border-black transition"
-                                onChange={(e) => setData({...data, odometer: e.target.value})} 
+                                onChange={(e) => setData({...data, weight: e.target.value})} 
                             />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mt-4">
                             <select 
                                 className="w-full border border-gray-200 p-4 rounded-xl text-black bg-white outline-none" 
-                                onChange={(e) => setData({...data, transmission: e.target.value})}
+                                onChange={(e) => setData({...data, category: e.target.value})}
+                                value={data.category}
                             >
-                                <option value="manual">Manual</option>
-                                <option value="automatic">Automatic</option>
+                                <option value="Produce">Produce</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Bakery">Bakery</option>
+                                <option value="Meat">Meat & Seafood</option>
+                                <option value="Snacks">Snacks</option>
                             </select>
 
                             <select 
                                 className="w-full border border-gray-200 p-4 rounded-xl text-black bg-white outline-none" 
-                                onChange={(e) => setData({...data, fuel_type: e.target.value})}
+                                onChange={(e) => setData({...data, dietary_preference: e.target.value})}
+                                value={data.dietary_preference}
                             >
-                                <option value="petrol">Petrol</option>
-                                <option value="diesel">Diesel</option>
-                                <option value="electric">Electric</option>
+                                <option value="none">No Preference</option>
+                                <option value="organic">Organic</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="gluten_free">Gluten-Free</option>
                             </select>
                         </div>
                     </div>
@@ -281,7 +270,7 @@ const AddPropertyPage = () => {
                         onClick={submitForm} 
                         className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:brightness-90 transition shadow-lg mt-6"
                     >
-                        List Vehicle
+                        List Product
                     </button>
                 </div>
 
@@ -296,11 +285,11 @@ const AddPropertyPage = () => {
                                <p className="text-gray-400 italic">Main Cover Image</p>
                            )}
                         </div>
-                        <h3 className="font-bold text-lg text-black">{data.title || "Your Vehicle Title"}</h3>
+                        <h3 className="font-bold text-lg text-black">{data.title || "Your Product Title"}</h3>
                         <p className="text-gray-600">${data.price || "0"}</p>
                         <div className="mt-4 flex flex-wrap gap-2">
-                            {data.make && <span className="bg-white px-3 py-1 text-xs border rounded-full">{data.make}</span>}
-                            {data.year && <span className="bg-white px-3 py-1 text-xs border rounded-full">{data.year}</span>}
+                            {data.brand && <span className="bg-white px-3 py-1 text-xs border rounded-full">{data.brand}</span>}
+                            {data.weight && <span className="bg-white px-3 py-1 text-xs border rounded-full">{data.weight}</span>}
                         </div>
                         
                         {/* LIVE FEATURES PREVIEW */}

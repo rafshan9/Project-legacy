@@ -5,30 +5,21 @@ from django.conf import settings
 class Listing(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
-    # --- NEW CAR FIELDS ---
-    make = models.CharField(max_length=100)       # e.g., "BMW"
-    model = models.CharField(max_length=100)      # e.g., "E30 325i"
-    year = models.IntegerField()                  # e.g., 1988
-    
-    # Vital Stats for the "Subtitle" line
-    odometer = models.IntegerField(help_text="Kilometers driven") 
-    transmission = models.CharField(max_length=50, choices=[
-        ('manual', 'Manual'), 
-        ('automatic', 'Automatic'),
-        ('cvt', 'CVT')
-    ], default='manual')
-    fuel_type = models.CharField(max_length=50, choices=[
-        ('petrol', 'Petrol'),
-        ('diesel', 'Diesel'),
-        ('electric', 'Electric'),
-        ('hybrid', 'Hybrid')
-    ], default='petrol')
+    # --- GROCERY FIELDS ---
+    brand = models.CharField(max_length=100, default='')      # e.g., "FreshFarms"
+    weight = models.CharField(max_length=50, default='')      # e.g., "500g", "1L"
+    dietary_preference = models.CharField(max_length=50, choices=[
+        ('none', 'None'), 
+        ('organic', 'Organic'),
+        ('vegan', 'Vegan'),
+        ('gluten_free', 'Gluten-Free')
+    ], default='none')
     
     # --- STANDARD FIELDS (Kept from before) ---
-    title = models.CharField(max_length=255, blank=True) # blank=True so we can auto-fill it
+    title = models.CharField(max_length=255) # Product Name
     description = models.TextField()
     price = models.IntegerField()
-    category = models.CharField(max_length=255) # e.g., "Coupe", "Sedan", "Project"
+    category = models.CharField(max_length=255) # e.g., "Produce", "Dairy"
     
     # --- LOCATION (Kept) ---
     address = models.CharField(max_length=255, blank=True, null=True)
@@ -45,13 +36,6 @@ class Listing(models.Model):
 
     # --- DELETED FIELDS ---
     # bedrooms, bathrooms, guests removed.
-
-    # --- LOGIC: Auto-generate Title ---
-    def save(self, *args, **kwargs):
-        # If title is empty, build it from the car data
-        if not self.title:
-            self.title = f"{self.year} {self.make} {self.model}"
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

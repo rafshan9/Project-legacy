@@ -35,7 +35,7 @@ const BecomeHostPage = () => {
     return (
         <main className="max-w-xl mx-auto pt-4 md:pt-32 pb-24 px-6">
             <h1 className="text-3xl font-bold mb-2">Become a Seller</h1>
-            <p className="text-gray-600 mb-8">Fill in your details to start listing your home.</p>
+            <p className="text-gray-600 mb-8">Fill in your details to start listing your grocery items.</p>
             
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div className="flex flex-col gap-2">

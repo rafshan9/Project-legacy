@@ -51,25 +51,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
 
     const onHavenYourHome = () => {
         setIsOpen(false);
-        // Fix 3: Only call if the function exists
         if (closeMenu) closeMenu();
 
         if (!currentUser) {
             return loginModal.onOpen();
         }
 
-        const userJson = localStorage.getItem('user_data');
-        if (!userJson) {
-            return router.push('/sell-your-car'); 
-        }
-
-        const userData = JSON.parse(userJson);
-
-        if (userData.is_host) {
-            router.push('/add');
-        } else {
-            router.push('/sell-your-car');
-        }
+        router.push('/sell');
     };
 
     return (
@@ -87,7 +75,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
             </div>
 
             {isOpen && (
-                <div className="absolute rounded-xl shadow-lg w-max min-w-[180px] bg-white overflow-hidden right-0 top-12 text-sm z-50 ">
+                <div className="absolute rounded-xl shadow-lg w-max min-w-[180px] bg-white overflow-hidden right-0 top-12 text-sm z-50 text-black">
                     <div className="flex flex-col cursor-pointer">
                         {currentUser ? (
                             <>
@@ -98,15 +86,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
                                     My Profile
                                 </div>
                                 
-                                <div onClick={() => navigateTo('/trips')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
-                                    My Trips
+                                <div onClick={() => navigateTo('/orders')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
+                                    My Orders
                                 </div>
-                                <div onClick={() => navigateTo('/favorites')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
-                                    My Favorites
+                                <div onClick={() => navigateTo('/wishlist')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
+                                    My Wishlist
                                 </div>
                                 <div onClick={onHavenYourHome}
                                 className="px-4 py-3 hover:bg-neutral-100 transition">
-                                    List your car
+                                    Sell on FreshMart
                                 </div>
                                 <hr className="border-neutral-200"/>
                                 <div onClick={logout} className="px-4 py-3 hover:bg-neutral-100 transition text-rose-500">

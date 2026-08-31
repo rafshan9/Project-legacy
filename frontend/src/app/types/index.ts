@@ -4,10 +4,7 @@ export type ListingType = {
     image: string;
     price: number;
     category: string;
-    make: string;
-    model: string;
-    year: number;
-    odometer: number;
-    transmission: string;
-    fuel_type: string;
+    brand: string;
+    weight: string;
+    dietary_preference: string;
 };
