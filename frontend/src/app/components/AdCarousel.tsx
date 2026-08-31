@@ -49,7 +49,7 @@ const AdCarousel = () => {
     }, [currentIndex]);
 
     return (
-        <div className="w-full relative h-[250px] sm:h-[300px] md:h-[400px] rounded-xl overflow-hidden mb-8 shadow-sm flex items-center justify-center border border-gray-100 bg-gray-900 group">
+        <div className="w-full relative z-0 h-[250px] sm:h-[300px] md:h-[400px] rounded-xl overflow-hidden mb-8 shadow-sm flex items-center justify-center border border-gray-100 bg-gray-900 group">
             
             <Image 
                 src={slides[currentIndex].image}

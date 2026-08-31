@@ -12,7 +12,7 @@ const LoginModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [username, setUsername] = useState(""); 
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     useEffect(() => {
         if (loginModal.isOpen) {
@@ -21,13 +21,13 @@ const LoginModal = () => {
             setShowModal(false);
         }
     }, [loginModal.isOpen]);
-    
+
 
     const handleSubmit = async () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST || 'http://127.0.0.1:8000'}/api/users/login/`, { 
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST || 'http://127.0.0.1:8000'}/api/users/login/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,16 +43,16 @@ const LoginModal = () => {
             if (response.ok) {
                 console.log("Login Successful");
                 // Save the token!
-                localStorage.setItem('token', data.access); 
+                localStorage.setItem('token', data.access);
                 localStorage.setItem('userId', data.userId);
-                
+
                 const userData = {
                     id: data.userId,
                     username: data.userName,
                     is_host: data.is_host // This is the most important part!
                 };
                 localStorage.setItem('user_data', JSON.stringify(userData));
-                
+
                 loginModal.onClose();
                 router.refresh(); // Refresh to update the Navbar
                 window.location.reload(); // Force reload to ensure state updates
@@ -73,7 +73,7 @@ const LoginModal = () => {
     }
 
     return (
-        <div 
+        <div
             className={`
                 fixed inset-0 z-[100] flex items-center justify-center bg-black/50 
                 transition-opacity duration-300
@@ -85,7 +85,7 @@ const LoginModal = () => {
                 transform transition-all duration-300
                 ${showModal ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'}
             `}>
-                
+
                 {/* HEADER */}
                 <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
                     <button onClick={loginModal.onClose} className="p-1 hover:bg-gray-100 rounded-full transition">
@@ -103,9 +103,9 @@ const LoginModal = () => {
 
                     {/* USERNAME INPUT (Simplified) */}
                     <div className="border border-gray-400 rounded-lg overflow-hidden mb-4 p-3">
-                        <input 
-                            type="text" 
-                            placeholder="Username" 
+                        <input
+                            type="text"
+                            placeholder="Username (grocerystore)"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="w-full h-full outline-none text-gray-900 placeholder-gray-500"
@@ -114,9 +114,9 @@ const LoginModal = () => {
 
                     {/* PASSWORD INPUT */}
                     <div className="border border-gray-400 rounded-lg overflow-hidden mb-4 p-3">
-                        <input 
-                            type="password" 
-                            placeholder="Password"
+                        <input
+                            type="password"
+                            placeholder="Password (password123)"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full h-full outline-none text-gray-900 placeholder-gray-500"
@@ -124,8 +124,8 @@ const LoginModal = () => {
                     </div>
 
                     {/* BUTTON */}
-                    <button 
-                        onClick={handleSubmit} 
+                    <button
+                        onClick={handleSubmit}
                         disabled={isLoading}
                         className={`w-full bg-primary font-medium text-white py-3.5 rounded-lg transition mb-6 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
                     >
@@ -144,7 +144,7 @@ const LoginModal = () => {
                     <div className="text-center text-sm text-gray-500 mt-6">
                         <div>
                             No account yet?
-                            <span 
+                            <span
                                 onClick={() => {
                                     loginModal.onClose();
                                     registerModal.onOpen();
@@ -165,8 +165,8 @@ const LoginModal = () => {
 const SocialButton = ({ icon, label }: { icon: string, label: string }) => (
     <button className="flex items-center justify-between w-full border border-gray-900 rounded-lg p-3 hover:bg-gray-50 transition relative">
         <div className="w-5 h-5 relative">
-            <Image 
-                src={icon} 
+            <Image
+                src={icon}
                 alt={label}
                 fill
                 className="object-contain"

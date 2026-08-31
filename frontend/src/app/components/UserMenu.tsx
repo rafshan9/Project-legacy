@@ -92,10 +92,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, closeMenu }) => {
                                 <div onClick={() => navigateTo('/wishlist')} className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
                                     My Wishlist
                                 </div>
-                                <div onClick={onHavenYourHome}
-                                className="px-4 py-3 hover:bg-neutral-100 transition">
-                                    Sell on FreshMart
-                                </div>
                                 <hr className="border-neutral-200"/>
                                 <div onClick={logout} className="px-4 py-3 hover:bg-neutral-100 transition text-rose-500">
                                     Logout
