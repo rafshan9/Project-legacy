@@ -13,7 +13,8 @@ from users.models import User
 user, created = User.objects.get_or_create(username='grocerystore', defaults={'email': 'store@example.com'})
 if created:
     user.set_password('password123')
-    user.save()
+user.is_staff = True
+user.save()
 
 # Sample Grocery Data with Unsplash URLs
 groceries = [
